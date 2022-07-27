@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "lib": [
+      "dom"
+      ,"es2019"
+    ],
+    "rootDir": "..\\ts_rawFiles",
+    "outDir": "..\\testing",
+    "out": "relaxedDotPlotLib.js",
+    "allowJs": true
+  },
+  "files": [
+    "licenses.ts"
+    // external Libraries
+    ,"externalLibs/d3.v5.min.js" // d3
+    ,"externalLibs/dat.gui.min.js" // dat Gui
+    ,"externalLibs/d3-delaunay.js" // delaunay creator
+    
+
+    ,"classDefinitions.ts" // class definitions (must be early)
+    ,"blueNoiseNonUniform.ts" // blue noise calculation
+
+
+    ,"interfaces.ts"
+    ,"plotting.ts"
+    ,"inputErrors.ts"
+    ,"inputProcessing.ts"
+    ,"parsing.ts"
+    
+    // Relaxing
+    ,"relaxing.ts"
+    // Web GL
+    ,"webGL.ts"
+
+    // function files
+    ,"funcPlotSweep.ts"
+    ,"funcColorMaking.ts"
+    ,"funcImageMaking.ts"
+    ,"funcSmallHelper.ts"
+    ,"funcDensity.ts"
+
+  ]
+  
+}

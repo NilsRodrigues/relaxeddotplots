@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<!-- Relaxed Dot Plot Library -->
+	<script src="relaxedDotPlotLib.js"></script>
+	<!-- Test GUI for Relaxed Dot Plot Library -->
+	<script src="relaxedDotPlotGUI.js"></script>
+	<style>
+	</style>
+</head>
+	
+<body> 
+	<div id="div"  style="width: 600px;">  </div>
+</body>
+
+<!-- already parsed data for plots -->
+<script src="DATA_game_full.js"></script>
+
+<script type="text/javascript">
+
+	let dotplot;
+	let inputConfig;
+	let inputData;
+	
+	// Test inputconfig with some values set
+	inputConfig = {
+		containerId:"div",
+		xAttribute:"Hours Played",
+		dots: {
+			dSingle: 100,
+			radiusMode:"kde",
+			dotscaling: dotscaling.root(0.4),
+			circlePadding:0.1
+		},
+		relaxing : {
+			// MDM <= 0.015 (Speed)
+			// MDM <= 0.003 (Quality)
+			stopThreshold: 0.003,
+			iter:200,
+			xCorrection: 0.3,
+			xCorrectionType: "force",
+			overlapUsePadding: true,
+		},
+		density: {
+			// bandwidth:30,
+		},
+		color:{
+			attribute:"Game",
+			scale: [{color:"#606060", position:0}],
+		},
+		xTicks: 8,
+		aspect: {
+			ratio:-1,
+		},
+		xLabel:"Hours Played",
+	};
+
+
+	/* 
+		tries to read data from a csv and make a plot from it
+		if that doesn't work use saved .json of the data
+	*/
+	plotHelperAsync();
+
+
+	// helper for async file reading
+	async function plotHelperAsync(){
+		// reads and parses given csv file on the server
+		let inputData;
+		try {
+			// tries reading and parsing the CSV data
+			inputData = await parseFromDataPathAsync("\\testing\\game_full.csv");
+		} catch (error) {
+			console.warn(error);
+			// if unsucsessfull use pre-parsed data
+			inputData = fullGameData;
+		}
+		// slice data to be smaller
+		inputData = inputData.slice(0,1000);
+		// draw Plot
+		dotplot = newRelaxedPlot(inputData, inputConfig);
+		// add GUI for some live interaction
+		relaxedPlotGUI(dotplot);
+	}
+
+</script>
+</html>
