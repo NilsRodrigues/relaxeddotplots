@@ -1,3 +1,6 @@
+// code doesn't know  kernel here, but it exists when used
+declare let kernel: any;
+
 // external GUI library
 function relaxedPlotGUI(dotplotReturn: DotplotReturn){
     let inputConfig = dotplotReturn.inputConfig;
