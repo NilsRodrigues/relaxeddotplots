@@ -411,16 +411,16 @@ function mergeInputData(inputConfig: InputConfig, inputData: InputData, newInput
     return inputData;
 }
 
-function saveSvg(svgEl, name) {
-    svgEl.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-    var svgData = svgEl.outerHTML;
-    var preface = '<?xml version="1.0" standalone="no"?>\r\n';
-    var svgBlob = new Blob([preface, svgData], {type:"image/svg+xml;charset=utf-8"});
-    var svgUrl = URL.createObjectURL(svgBlob);
-    var downloadLink = document.createElement("a");
-    downloadLink.href = svgUrl;
-    downloadLink.download = name;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+function saveSvg(htmlElem: HTMLElement, name: string) {
+    htmlElem.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    let outerHtml = htmlElem.outerHTML;
+    let preface = '<?xml version="1.0" standalone="no"?>\r\n';
+    let blob = new Blob([preface, outerHtml], {type:"image/svg+xml;charset=utf-8"});
+    let blobUrl = URL.createObjectURL(blob);
+    let svgLink = document.createElement("a");
+    svgLink.href = blobUrl;
+    svgLink.download = name;
+    document.body.appendChild(svgLink);
+    svgLink.click();
+    document.body.removeChild(svgLink);
 }

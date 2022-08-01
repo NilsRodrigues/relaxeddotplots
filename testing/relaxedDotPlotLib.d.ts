@@ -776,7 +776,7 @@ declare function insertionSortOriginal(circleData: CircleData, size: number): Ci
 declare function xPixToDensPix(inputConfig: InputConfig, plotParam: PlotParam, xPix: number): number;
 /** Since Inputdata is already sorted by x we just do a simple insertion */
 declare function mergeInputData(inputConfig: InputConfig, inputData: InputData, newInputData: InputData): InputData;
-declare function saveSvg(svgEl: any, name: any): void;
+declare function saveSvg(htmlElem: HTMLElement, name: string): void;
 /**
 Calculates and draws the density of given data on points in xTicks, regarding to attribues in inputConfig. Also adds a new x value to bve considered in the calc, if it's not null
 */
