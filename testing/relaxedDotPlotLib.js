@@ -4262,6 +4262,9 @@ function validateInput(inputConfig, inputData) {
     else if (inputConfig.dots.circlePadding < 0 || inputConfig.dots.circlePadding > 1) {
         throw new Error("dots.circlePadding should be within [0,1], is: \"" + inputConfig.dots.circlePadding + "\"");
     }
+    else if (Object.prototype.toString.call(inputConfig.dots.border) != '[object Boolean]') {
+        throw new Error("dots.border must be a Boolean");
+    }
     /** Color Config */
     attributeMapType = Object.prototype.toString.call(inputConfig.color.attributeMap);
     colorAttributeType = Object.prototype.toString.call(inputConfig.color.attribute);
