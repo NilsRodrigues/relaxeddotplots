@@ -40,6 +40,7 @@ async function newRelaxedPlot(inputData: InputData, inputConfig: InputConfig) : 
         ,radiusMode: "kde"
 		,dotscaling:dotscaling.root(0.3)
 		,circlePadding:0.1
+        ,border: false
 	}, inputConfig.dots);
 
 

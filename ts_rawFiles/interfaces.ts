@@ -108,6 +108,7 @@ interface DotsConfig {
     ,radiusMode: keyof typeof RadiusModeEnum
     ,dotscaling?: DotscaleReturn
     ,circlePadding?: number
+    ,border?: boolean
 }
 
 enum DotsColorModeEnum {

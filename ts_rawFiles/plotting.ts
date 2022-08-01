@@ -387,7 +387,7 @@ function plotter(): Chart {
 							return null;
 							})())
 						.style("fill", getCircleColor(inputConfig, circle))
-						.style("stroke", "black")
+						.style("stroke", (inputConfig.dots.border ? "black" : ""))
 						.style("opacity", "1")
 						.on("mouseenter", () => {	
 							const tooltip = document.querySelector('.tooltip')

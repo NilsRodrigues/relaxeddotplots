@@ -3868,7 +3868,7 @@ function plotter() {
                         return null;
                     })())
                         .style("fill", getCircleColor(inputConfig, circle))
-                        .style("stroke", "black")
+                        .style("stroke", (inputConfig.dots.border ? "black" : ""))
                         .style("opacity", "1")
                         .on("mouseenter", () => {
                         const tooltip = document.querySelector('.tooltip');
@@ -4443,7 +4443,8 @@ async function newRelaxedPlot(inputData, inputConfig) {
         dSingle: 1,
         radiusMode: "kde",
         dotscaling: dotscaling.root(0.3),
-        circlePadding: 0.1
+        circlePadding: 0.1,
+        border: false
     }, inputConfig.dots);
     // color values
     inputConfig.color = Object.assign({
