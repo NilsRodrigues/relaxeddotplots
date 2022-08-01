@@ -84,6 +84,7 @@ class VoronoiGL{
         // of the playground
         document.body.appendChild(this.canvas);
         this.canvas.style.visibility = "hidden";
+        this.canvas.style.display = "none";
 
         this.ext_cbf = this.gl.getExtension("EXT_color_buffer_float");
         if (!this.ext_cbf) {

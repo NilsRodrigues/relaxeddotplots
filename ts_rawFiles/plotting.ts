@@ -228,7 +228,6 @@ function plotter(): Chart {
 				func: guiFunctions,
 				inputConfig: inputConfig,
 				plotParam: plotParam,
-				relaxCallback: null,
 			}
 
 			/**
@@ -683,9 +682,6 @@ function plotter(): Chart {
 		
 				updateDotPosition();
 				console.log("Relaxing Done");
-				if (dotplotReturn.relaxCallback !== null) {
-					dotplotReturn.relaxCallback();
-				}
 			}
 
 

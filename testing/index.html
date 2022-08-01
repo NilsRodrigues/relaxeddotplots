@@ -62,7 +62,6 @@
 	*/
 	plotHelperAsync();
 
-
 	// helper for async file reading
 	async function plotHelperAsync(){
 		// reads and parses given csv file on the server
@@ -78,7 +77,7 @@
 		// slice data to be smaller
 		inputData = inputData.slice(0,1000);
 		// draw Plot
-		dotplot = newRelaxedPlot(inputData, inputConfig);
+		dotplot = await newRelaxedPlot(inputData, inputConfig);
 		// add GUI for some live interaction
 		relaxedPlotGUI(dotplot);
 	}

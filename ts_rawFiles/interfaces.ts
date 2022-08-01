@@ -15,8 +15,6 @@ interface DotplotReturn {
     inputConfig: InputConfig,
     plotParam: PlotParam,
     func: GUIFunctions
-    // function that is called after relaxation stopped
-    relaxCallback: Function,
 }
 
 interface InputDataObj {
@@ -426,7 +424,7 @@ interface Chart{
 interface GUIFunctions {
     nextRelaxingSteps: Function,
 
-    redrawGraph: ()=>DotplotReturn,
+    redrawGraph: ()=>Promise<DotplotReturn>,
     redrawDensity: Function,
 
     updateXTicks: Function,

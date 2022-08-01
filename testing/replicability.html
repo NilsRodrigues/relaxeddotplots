@@ -9,6 +9,7 @@
 	
 <body> 
 	<div id="div"  style="width: 600px;">  </div>
+
 </body>
 
 <!-- already parsed data for plots -->
@@ -21,37 +22,6 @@
 	let inputData;
 	
 	// Test inputconfig with some values set
-	inputConfig = {
-		containerId:"div",
-		xAttribute:"Hours Played",
-		dots: {
-			dSingle: 100,
-			radiusMode:"kde",
-			dotscaling: dotscaling.root(0.4),
-			circlePadding:0.1
-		},
-		relaxing : {
-			// MDM <= 0.015 (Speed)
-			// MDM <= 0.003 (Quality)
-			stopThreshold: 0.003,
-			iter:200,
-			xCorrection: 0.3,
-			xCorrectionType: "force",
-			overlapUsePadding: true,
-		},
-		density: {
-			// bandwidth:30,
-		},
-		color:{
-			attribute:"Game",
-			scale: [{color:"#606060", position:0}],
-		},
-		xTicks: 8,
-		aspect: {
-			ratio:2,
-		},
-		xLabel:"Hours Played",
-	};
 	inputConfig = {
 		"containerId": "div",
 		"xAttribute": "Hours Played",
@@ -118,19 +88,32 @@
 			"epsilon": 100
 		}
 	}
-
+	// get data
 	inputData = fullGameData;
 	// slice data to be smaller
 	inputData = inputData.slice(0,100);
 	// draw Plot
-	dotplot = newRelaxedPlot(inputData, inputConfig);
-	dotplot.relaxCallback = afterRelax;
-	dotplot.func.nextRelaxingSteps();
+	plotAndSave();
 
 
-	function afterRelax() {
+
+	async function plotAndSave() {
+		// wait for the relaxing to end
+		dotplot = await newRelaxedPlot(inputData, inputConfig);
+		// save SVG
 		dotplot.func.savePlotSVG();
+
+		// Create button to manually save SVG
+		const button = document.createElement("button");
+		button.innerText = "Save Plot";
+		button.addEventListener("click", () => {
+			dotplot.func.savePlotSVG();
+		});
+		div = document.getElementById("div")
+		div.parentElement.insertBefore(button, div.nextSibling);
+		
 	}
+	
 
 
 </script>

@@ -47,7 +47,6 @@ interface DotplotReturn {
     inputConfig: InputConfig;
     plotParam: PlotParam;
     func: GUIFunctions;
-    relaxCallback: Function;
 }
 interface InputDataObj {
     [key: string]: any;
@@ -341,7 +340,7 @@ interface Chart {
 }
 interface GUIFunctions {
     nextRelaxingSteps: Function;
-    redrawGraph: () => DotplotReturn;
+    redrawGraph: () => Promise<DotplotReturn>;
     redrawDensity: Function;
     updateXTicks: Function;
     updateDotColor: Function;
@@ -455,7 +454,7 @@ Receives inputData and inputConfig as input.
 Throws error if input contains a mistake
 Initializes the doubleSweep and calculates everything necessary for graph drawing with d3
 */
-declare function newRelaxedPlot(inputData: InputData, inputConfig: InputConfig): DotplotReturn;
+declare function newRelaxedPlot(inputData: InputData, inputConfig: InputConfig): Promise<DotplotReturn>;
 /**
 Receives a filepath to a CSV file and the inputConfig as input.
 Converts the content of the CSV file with d3 parsing to a java object.

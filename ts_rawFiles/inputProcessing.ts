@@ -3,7 +3,7 @@ Receives inputData and inputConfig as input.
 Throws error if input contains a mistake
 Initializes the doubleSweep and calculates everything necessary for graph drawing with d3
 */
-function newRelaxedPlot(inputData: InputData, inputConfig: InputConfig) : DotplotReturn {
+async function newRelaxedPlot(inputData: InputData, inputConfig: InputConfig) : Promise<DotplotReturn> {
 
 
     // is color active
@@ -163,7 +163,7 @@ function newRelaxedPlot(inputData: InputData, inputConfig: InputConfig) : Dotplo
     dotPlot =  chart.dotplotReturn();
 
     // starter functions
-    // dotPlot.func.nextRelaxingSteps();
+    await dotPlot.func.nextRelaxingSteps();
 
     return dotPlot;
 

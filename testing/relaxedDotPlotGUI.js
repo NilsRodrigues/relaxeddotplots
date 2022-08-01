@@ -2,8 +2,8 @@
 function relaxedPlotGUI(dotplotReturn) {
     let inputConfig = dotplotReturn.inputConfig;
     let plot = dotplotReturn.func;
-    function redrawAndUpdateGUI() {
-        dotplotReturn = plot.redrawGraph();
+    async function redrawAndUpdateGUI() {
+        dotplotReturn = await plot.redrawGraph();
         // currently GUI is completely redone
         gui.destroy();
         relaxedPlotGUI(dotplotReturn);

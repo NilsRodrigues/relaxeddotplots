@@ -3707,7 +3707,6 @@ function plotter() {
                 func: guiFunctions,
                 inputConfig: inputConfig,
                 plotParam: plotParam,
-                relaxCallback: null,
             };
             /**
              *
@@ -4136,9 +4135,6 @@ function plotter() {
                 }
                 updateDotPosition();
                 console.log("Relaxing Done");
-                if (dotplotReturn.relaxCallback !== null) {
-                    dotplotReturn.relaxCallback();
-                }
             }
             function updateVoronoi() {
                 circleData.forEach(circle => {
@@ -4416,7 +4412,7 @@ Receives inputData and inputConfig as input.
 Throws error if input contains a mistake
 Initializes the doubleSweep and calculates everything necessary for graph drawing with d3
 */
-function newRelaxedPlot(inputData, inputConfig) {
+async function newRelaxedPlot(inputData, inputConfig) {
     // is color active
     let hasColor;
     // result of the double Sweep and window size calculation
@@ -4545,7 +4541,7 @@ function newRelaxedPlot(inputData, inputConfig) {
     // Returned object that represents the dotplot and all settings tied to it
     dotPlot = chart.dotplotReturn();
     // starter functions
-    // dotPlot.func.nextRelaxingSteps();
+    await dotPlot.func.nextRelaxingSteps();
     return dotPlot;
 }
 ;
@@ -4849,6 +4845,7 @@ class VoronoiGL {
         // of the playground
         document.body.appendChild(this.canvas);
         this.canvas.style.visibility = "hidden";
+        this.canvas.style.display = "none";
         this.ext_cbf = this.gl.getExtension("EXT_color_buffer_float");
         if (!this.ext_cbf) {
             console.log("need EXT_color_buffer_float");
