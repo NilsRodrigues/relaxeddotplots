@@ -29,14 +29,10 @@ function plotter(): Chart {
 	let axisShown = true;
 	let firstUpdate = true;
 
-	/*
-		Class to put in all GUI functions
-	*/
+	// Class to put in all GUI functions
 	let guiFunctions: GUIFunctions;
 
-	/* 
-		Object that the user can use for plot functions
-	*/
+	// Object that the user can use for plot functions
 	let dotplotReturn: DotplotReturn;
 
 	// helper for saving new dot rads
@@ -285,7 +281,7 @@ function plotter(): Chart {
 			
 			/** save a json of the inputconfig (does not include functions) and evaluation */
 			function saveInputconfig(){
-				download("evalOutput.json", JSON.stringify(evalOutput, null, 2));
+				download("Inputconfig.json", JSON.stringify(evalOutput.plotsettings, null, 2));
 			}
 		
 			/** update the xTicks on the x-Axis */
@@ -543,7 +539,9 @@ function plotter(): Chart {
 				
 				// console.log("E" + EPSILON);
 		
-				evalOutput.metrics.totalRuntime = Date.now(); 
+				if(inputConfig.debugMeasurements){
+					evalOutput.metrics.totalRuntime = Date.now(); 
+				}
 				
 				let stepRuntime: number;
 				
@@ -567,38 +565,40 @@ function plotter(): Chart {
 		
 					relaxStatus = await relaxationStep(inputConfig, circleData, plotParam, voronoiGL, hasColor);
 					
-					// total runtime
-					evalOutput.history.stepRuntime.push(Date.now() - stepRuntime);
-					
 					if(inputConfig.debugMeasurements){
+						// total runtime
+						evalOutput.history.stepRuntime.push(Date.now() - stepRuntime);
 						overlapStatus = voronoiGL.showOverlap(inputConfig, circleData, plotParam);
-		
-						// overlap error
-						sumOverlapDiameter = 0;
-						let smallestDistance;
-						for (let indxOne = 0; indxOne < circleData.length ; indxOne++) {
-							circleOne = circleData[indxOne];
-							smallestDistance = Infinity;
-							for (let indxTwo = 0; indxTwo < circleData.length ; indxTwo++) {
-								circleTwo = circleData[indxTwo];
-								if (indxOne === indxTwo) continue;
-								// distance from middle of dot 1 to outside of dot 2
-								overlapDistance = Math.max(euclidDist(circleOne, circleTwo) - plotParam.padRadFunct(circleTwo.radiusPix), 0);
-								// onlz take smallest distance, because if dot doesn|t overlap that, he won't overlap any
-								smallestDistance = (overlapDistance < smallestDistance) ? overlapDistance : smallestDistance;
-								// if circle is completely enveloped no need to look for others
-								if (smallestDistance <= 0) break;
-								
-							}
-							// if dot 2 completely envelops dot one, error is max
-							if (smallestDistance <= 0) {
-								sumOverlapDiameter += 1;
-							// no overlaping of dots
-							} else if(smallestDistance >= plotParam.padRadFunct(circleOne.radiusPix)) {
-								sumOverlapDiameter += 0;
-							} else {
-								sumOverlapDiameter += 1 - (smallestDistance / plotParam.padRadFunct(circleOne.radiusPix));
-							}
+						
+
+						if (inputConfig.debugOverlap) {
+							// overlap error
+							sumOverlapDiameter = 0;
+							let smallestDistance;
+							for (let indxOne = 0; indxOne < circleData.length ; indxOne++) {
+								circleOne = circleData[indxOne];
+								smallestDistance = Infinity;
+								for (let indxTwo = 0; indxTwo < circleData.length ; indxTwo++) {
+									circleTwo = circleData[indxTwo];
+									if (indxOne === indxTwo) continue;
+									// distance from middle of dot 1 to outside of dot 2
+									overlapDistance = Math.max(euclidDist(circleOne, circleTwo) - plotParam.padRadFunct(circleTwo.radiusPix), 0);
+									// onlz take smallest distance, because if dot doesn|t overlap that, he won't overlap any
+									smallestDistance = (overlapDistance < smallestDistance) ? overlapDistance : smallestDistance;
+									// if circle is completely enveloped no need to look for others
+									if (smallestDistance <= 0) break;
+									
+								}
+								// if dot 2 completely envelops dot one, error is max
+								if (smallestDistance <= 0) {
+									sumOverlapDiameter += 1;
+								// no overlaping of dots
+								} else if(smallestDistance >= plotParam.padRadFunct(circleOne.radiusPix)) {
+									sumOverlapDiameter += 0;
+								} else {
+									sumOverlapDiameter += 1 - (smallestDistance / plotParam.padRadFunct(circleOne.radiusPix));
+								}
+							}	
 						}
 		
 						// half the result
@@ -642,11 +642,10 @@ function plotter(): Chart {
 					circle.radiusPix /= inputConfig.relaxing.supSampFactor;
 				})
 		
-				// total runtime
-				evalOutput.metrics.relaxRuntime = d3.sum(evalOutput.history.stepRuntime);
-				evalOutput.metrics.totalRuntime = Date.now() - evalOutput.metrics.totalRuntime;
-		
 				if(inputConfig.debugMeasurements){
+					// total runtime
+					evalOutput.metrics.relaxRuntime = d3.sum(evalOutput.history.stepRuntime);
+					evalOutput.metrics.totalRuntime = Date.now() - evalOutput.metrics.totalRuntime;
 					// placing error
 					evalOutput.metrics.SSE = relaxStatus.sumSquaredError;
 					evalOutput.metrics.MSE = relaxStatus.sumSquaredError / inputConfig.extraInfo.dotCount;
