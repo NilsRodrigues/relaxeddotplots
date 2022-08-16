@@ -17,20 +17,22 @@ function relaxedPlotGUI(dotplotReturn: DotplotReturn){
     gui.add({redraw: redrawAndUpdateGUI}, "redraw").name("Redraw Graph");
     
     gui.add(inputConfig, "debugMeasurements");
-    gui.add({getError: plot.printCircleError}, "getError").name("Get Circle Error");
-    gui.add({testNoise: plot.exportLayoutToTxt}, "testNoise").name("Get Layout Txt");
-    gui.add({showOverlap: plot.getOverlap}, "showOverlap").name("Show Overlap");
-    gui.add({a: plot.saveInputconfig}, "a").name("Save InputConfig");
+    gui.add(plot, "printCircleError").name("Get Circle Error");
+    gui.add(plot, "exportLayoutToTxt").name("Get DDU Attributes");
+    gui.add(plot, "getOverlap").name("Show Overlap");
+    gui.add(plot, "saveInputconfig").name("Save InputConfig");
+    gui.add(plot, "saveDebug").name("Save DebugValues");
     
+    gui.add(plot, "savePlotSVG").name("Save SVG");
     
     let visibleFolder = gui.addFolder("Visibility");
     
-    visibleFolder.add({hideOrshow: plot.toggleVoronoi}, "hideOrshow").name("Voronoi");
-    visibleFolder.add({hideOrshow: plot.toggleDots}, "hideOrshow").name("Circles");
-    visibleFolder.add({hideOrshow: plot.toggleLowOpaDots}, "hideOrshow").name("Circles Low");
-    visibleFolder.add({hideOrshow: plot.toggleDens}, "hideOrshow").name("Density");
-    visibleFolder.add({hideOrshow: plot.toggleAxis}, "hideOrshow").name("Axis Desc");
-    visibleFolder.add({hideOrshow: plot.toggleAxisFull}, "hideOrshow").name("Axis Full");
+    visibleFolder.add(plot, "toggleVoronoi").name("Voronoi");
+    visibleFolder.add(plot, "toggleDots").name("Circles");
+    visibleFolder.add(plot, "toggleLowOpaDots").name("Circles Low");
+    visibleFolder.add(plot, "toggleDens").name("Density");
+    visibleFolder.add(plot, "toggleAxis").name("Axis Desc");
+    visibleFolder.add(plot, "toggleAxisFull").name("Axis Full");
     
     
     
@@ -135,9 +137,9 @@ function relaxedPlotGUI(dotplotReturn: DotplotReturn){
     relaxingModesFolder.add(inputConfig.relaxing, "colorMode", { Normal: "normal", Error: "error" , Coverage: "coverage"} );
     relaxingModesFolder.add(inputConfig.relaxing, "xCorrectionType", {Force: "force",LinearArea: "linearArea", CircleArea: "circleArea"} );
     
-    relaxingFolder.add({update: plot.nextRelaxingSteps}, "update").name("Next Relaxing Step");
-    relaxingFolder.add({UpdateVoronoi: plot.updateVoronoi}, "UpdateVoronoi");
-    relaxingFolder.add({url: plot.copyVoronoiURL}, "url").name("Voronoi URL");
+    relaxingFolder.add(plot, "nextRelaxingSteps").name("Next Relaxing Step");
+    relaxingFolder.add(plot, "updateVoronoi");
+    relaxingFolder.add(plot, "copyVoronoiURL").name("Voronoi URL");
     //relaxingFolder.add({saveSvg: savePlotSVG}, "saveSvg").name("Plot SVG");
 
 }
