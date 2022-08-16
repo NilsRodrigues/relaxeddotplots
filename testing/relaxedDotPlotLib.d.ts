@@ -67,6 +67,7 @@ interface InputConfig {
     images?: ImagesConfig;
     extraInfo?: ExtraInfo;
     debugMeasurements?: boolean;
+    debugOverlap?: boolean;
 }
 declare enum StudyModeEnum {
     pick = 0,

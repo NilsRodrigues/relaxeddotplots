@@ -42,8 +42,6 @@ function plotter(): Chart {
 
 		selection.each(function(circleData : CircleData) {
 
-			let pixelMap: PixelMap;
-			
 			let evalOutput: EvalOutput = {
 				plotsettings: inputConfig
 				,history: {
@@ -568,13 +566,13 @@ function plotter(): Chart {
 					if(inputConfig.debugMeasurements){
 						// total runtime
 						evalOutput.history.stepRuntime.push(Date.now() - stepRuntime);
-						overlapStatus = voronoiGL.showOverlap(inputConfig, circleData, plotParam);
 						
-
+						
 						if (inputConfig.debugOverlap) {
+							overlapStatus = voronoiGL.showOverlap(inputConfig, circleData, plotParam);
 							// overlap error
 							sumOverlapDiameter = 0;
-							let smallestDistance;
+							let smallestDistance: number;
 							for (let indxOne = 0; indxOne < circleData.length ; indxOne++) {
 								circleOne = circleData[indxOne];
 								smallestDistance = Infinity;
