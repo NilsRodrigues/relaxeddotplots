@@ -439,8 +439,9 @@ interface GUIFunctions {
     printCircleError: Function,
     exportLayoutToTxt: Function,
     saveInputconfig: Function,
-    copyVoronoiURL: Function,
+    saveDebug: Function,
     savePlotSVG: Function,
+    copyVoronoiURL: Function,
 
     getOverlap: Function,
     toggleVoronoi: Function,
