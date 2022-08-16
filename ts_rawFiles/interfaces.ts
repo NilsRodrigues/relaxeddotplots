@@ -37,6 +37,7 @@ interface InputConfig {
     ,images?: ImagesConfig
     ,extraInfo?: ExtraInfo
     ,debugMeasurements?: boolean
+    ,debugOverlap?: boolean
 }
 
 
