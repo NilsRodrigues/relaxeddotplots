@@ -217,6 +217,7 @@ interface PlotParam {
     boundaryList: BoundaryList;
     kde: KDE;
     updateTextures: boolean;
+    padRadFunct: (radius: number) => number;
 }
 interface DoubleSweepResult {
     columns: Column[];
@@ -630,7 +631,7 @@ Calculates container width, height and aspectRatio.
 Loops calculation of the doubleSweep function
 and changing of dSingle value for custom aspectRatio.
 */
-declare function createPlotDimension(inputConfig: InputConfig, inputData: InputData, hasColor: boolean, docHeight: string, docWidth: string): PlotParam;
+declare function createPlotParamters(inputConfig: InputConfig, inputData: InputData, hasColor: boolean, docHeight: string, docWidth: string): PlotParam;
 /**
 Receives inputData, inputConfig and checkColor as input.
 Performs the double sweep algorithm with already sorted data

@@ -4,7 +4,7 @@ Calculates container width, height and aspectRatio.
 Loops calculation of the doubleSweep function
 and changing of dSingle value for custom aspectRatio.
 */
-function createPlotDimension(inputConfig: InputConfig, inputData: InputData, hasColor: boolean, docHeight: string, docWidth: string): PlotParam {
+function createPlotParamters(inputConfig: InputConfig, inputData: InputData, hasColor: boolean, docHeight: string, docWidth: string): PlotParam {
 
     // End height and weight
     let height: number;
@@ -366,6 +366,7 @@ function createPlotDimension(inputConfig: InputConfig, inputData: InputData, has
         , boundaryList: boundaryList
         , kde: kde
         , updateTextures: true
+        , padRadFunct: getPadRadFunct(inputConfig)
     }
 
 }

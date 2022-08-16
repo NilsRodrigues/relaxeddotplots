@@ -238,6 +238,8 @@ interface PlotParam {
     ,kde: KDE
     // ,boundedKDE: KDE
     ,updateTextures: boolean
+    // function to pad radius of circle
+    ,padRadFunct: (radius: number)=>number
 }
 
 interface DoubleSweepResult {

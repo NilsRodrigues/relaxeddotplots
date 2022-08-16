@@ -3860,7 +3860,7 @@ function plotter() {
                         .attr("class", "circles")
                         .attr("transform", "translate(" + (circle.xPix) + "," + (yAxisScale(0) - circle.yPix) + ")")
                         .attr("id", circle.d3RefID)
-                        .attr("r", getPadRadFunct(inputConfig)(circle.radiusPix))
+                        .attr("r", plotParam.padRadFunct(circle.radiusPix))
                         .style("filter", (() => {
                         if (circle.blur > 0 && inputConfig.blur.edge >= 0) {
                             return "url(#" + "cicleBlur-" + circle.xPix + circle.yPix + ")";
@@ -3916,15 +3916,15 @@ function plotter() {
                     // check if image needs to be smaller
                     if (hasColor) {
                         circlesD3Ref[circle.d3RefID].image
-                            .attr("transform", "translate(" + (circle.xPix - getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
-                            .attr("width", getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2)
-                            .attr("height", getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2);
+                            .attr("transform", "translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
+                            .attr("width", plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2)
+                            .attr("height", plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2);
                     }
                     else {
                         circlesD3Ref[circle.d3RefID].image
-                            .attr("transform", "translate(" + (circle.xPix - getPadRadFunct(inputConfig)(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - getPadRadFunct(inputConfig)(circle.radiusPix)) + ")")
-                            .attr("width", getPadRadFunct(inputConfig)(circle.radiusPix) * 2)
-                            .attr("height", getPadRadFunct(inputConfig)(circle.radiusPix) * 2);
+                            .attr("transform", "translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix)) + ")")
+                            .attr("width", plotParam.padRadFunct(circle.radiusPix) * 2)
+                            .attr("height", plotParam.padRadFunct(circle.radiusPix) * 2);
                     }
                 }
             }
@@ -3937,7 +3937,6 @@ function plotter() {
                 if (inputConfig.dots.radiusMode != "kde") {
                     return;
                 }
-                let padRadFunct = getPadRadFunct(inputConfig);
                 //circlesD3Ref
                 let newRads = {};
                 let circleID;
@@ -3948,19 +3947,19 @@ function plotter() {
                     circle.radiusPix = inputConfig.dots.dotscaling.scaleDensDiamDom(plotParam.kde(circle.origXdom), inputConfig.dots.dSingle) * plotParam.domainToPixel / 2;
                     // change optical circle
                     if (circlesD3Ref[circleID].colorCircle != null)
-                        circlesD3Ref[circleID].colorCircle.attr("r", padRadFunct(circle.radiusPix));
+                        circlesD3Ref[circleID].colorCircle.attr("r", plotParam.padRadFunct(circle.radiusPix));
                     if (inputConfig.images.useImages) {
                         if (hasColor) {
                             // with colored border
-                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
-                                .attr("width", padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2)
-                                .attr("height", padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2);
+                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
+                                .attr("width", plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2)
+                                .attr("height", plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2);
                         }
                         else {
                             // no colored border
-                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - padRadFunct(circle.radiusPix)) + ")")
-                                .attr("width", padRadFunct(circle.radiusPix) * 2)
-                                .attr("height", padRadFunct(circle.radiusPix) * 2);
+                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix)) + ")")
+                                .attr("width", plotParam.padRadFunct(circle.radiusPix) * 2)
+                                .attr("height", plotParam.padRadFunct(circle.radiusPix) * 2);
                         }
                     }
                     // put on result object
@@ -3970,7 +3969,6 @@ function plotter() {
             /** update optical dot positions */
             function updateDotPosition() {
                 let description;
-                let padRad = getPadRadFunct(inputConfig);
                 let circleID;
                 circleData.forEach(circle => {
                     circleID = circle.d3RefID;
@@ -3981,10 +3979,10 @@ function plotter() {
                     }
                     if (inputConfig.images.useImages) {
                         if (hasColor) {
-                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - padRad(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - padRad(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")");
+                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")");
                         }
                         else {
-                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - padRad(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - padRad(circle.radiusPix)) + ")");
+                            circlesD3Ref[circleID].image.attr("transform", "translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix)) + ")");
                         }
                     }
                 });
@@ -4043,7 +4041,7 @@ function plotter() {
                                 if (indxOne === indxTwo)
                                     continue;
                                 // distance from middle of dot 1 to outside of dot 2
-                                overlapDistance = Math.max(euclidDist(circleOne, circleTwo) - getPadRadFunct(inputConfig)(circleTwo.radiusPix), 0);
+                                overlapDistance = Math.max(euclidDist(circleOne, circleTwo) - plotParam.padRadFunct(circleTwo.radiusPix), 0);
                                 // onlz take smallest distance, because if dot doesn|t overlap that, he won't overlap any
                                 smallestDistance = (overlapDistance < smallestDistance) ? overlapDistance : smallestDistance;
                                 // if circle is completely enveloped no need to look for others
@@ -4055,11 +4053,11 @@ function plotter() {
                                 sumOverlapDiameter += 1;
                                 // no overlaping of dots
                             }
-                            else if (smallestDistance >= getPadRadFunct(inputConfig)(circleOne.radiusPix)) {
+                            else if (smallestDistance >= plotParam.padRadFunct(circleOne.radiusPix)) {
                                 sumOverlapDiameter += 0;
                             }
                             else {
-                                sumOverlapDiameter += 1 - (smallestDistance / getPadRadFunct(inputConfig)(circleOne.radiusPix));
+                                sumOverlapDiameter += 1 - (smallestDistance / plotParam.padRadFunct(circleOne.radiusPix));
                             }
                         }
                         // half the result
@@ -4529,7 +4527,7 @@ async function newRelaxedPlot(inputData, inputConfig) {
     // sort InputData according to the xAttribute (low to high)
     sortX(inputData, inputConfig.xAttribute);
     // doubleSweep and window size
-    plotParam = createPlotDimension(inputConfig, inputData, hasColor, document.getElementById(inputConfig.containerId).style.height, document.getElementById(inputConfig.containerId).style.width);
+    plotParam = createPlotParamters(inputConfig, inputData, hasColor, document.getElementById(inputConfig.containerId).style.height, document.getElementById(inputConfig.containerId).style.width);
     // create circle data
     circleData = createCircleData(inputConfig, inputData, hasColor, plotParam);
     // create graph for d3
@@ -4802,7 +4800,7 @@ function updateCells(inputConfig, circleData, plotParam, delaunay) {
         densityArray.push(density);
         circle.coverageColor = "#" + (Math.min(Math.round(density * 255), 255) * 256 * 256).toString(16).padStart(6, "0");
         // placing error
-        relaxStatus.sumSquaredError += Math.pow(((circle.origXpix - newCirclePosPix.x) / getPadRadFunct(inputConfig)(circle.radiusPix)), 2);
+        relaxStatus.sumSquaredError += Math.pow(((circle.origXpix - newCirclePosPix.x) / plotParam.padRadFunct(circle.radiusPix)), 2);
     }
     // densityAverage = d3.sum(densityArray)/circleData.size;
     // plot dens average if coverage color is activated
@@ -5732,7 +5730,7 @@ Calculates container width, height and aspectRatio.
 Loops calculation of the doubleSweep function
 and changing of dSingle value for custom aspectRatio.
 */
-function createPlotDimension(inputConfig, inputData, hasColor, docHeight, docWidth) {
+function createPlotParamters(inputConfig, inputData, hasColor, docHeight, docWidth) {
     // End height and weight
     let height;
     let width;
@@ -6036,7 +6034,8 @@ function createPlotDimension(inputConfig, inputData, hasColor, docHeight, docWid
         xAxisHeight: X_AXIS_HEIGHT,
         boundaryList: boundaryList,
         kde: kde,
-        updateTextures: true
+        updateTextures: true,
+        padRadFunct: getPadRadFunct(inputConfig)
     };
 }
 /**

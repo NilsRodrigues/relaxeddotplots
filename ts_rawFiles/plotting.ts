@@ -379,7 +379,7 @@ function plotter(): Chart {
 						.attr("class", "circles")
 						.attr("transform","translate(" + (circle.xPix) + "," + (yAxisScale(0) - circle.yPix) + ")")
 						.attr("id", circle.d3RefID)
-						.attr("r", getPadRadFunct(inputConfig)(circle.radiusPix))
+						.attr("r", plotParam.padRadFunct(circle.radiusPix))
 						.style("filter", (() => {
 							if (circle.blur > 0 && inputConfig.blur.edge >= 0) {
 								return "url(#" + "cicleBlur-" + circle.xPix + circle.yPix + ")";
@@ -436,14 +436,14 @@ function plotter(): Chart {
 					// check if image needs to be smaller
 					if ( hasColor) {
 						circlesD3Ref[circle.d3RefID].image
-							.attr("transform","translate(" + (circle.xPix - getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
-							.attr("width", getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2 )
-							.attr("height", getPadRadFunct(inputConfig)(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2 )
+							.attr("transform","translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
+							.attr("width", plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2 )
+							.attr("height", plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2 )
 					} else {
 						circlesD3Ref[circle.d3RefID].image
-							.attr("transform","translate(" + (circle.xPix - getPadRadFunct(inputConfig)(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - getPadRadFunct(inputConfig)(circle.radiusPix)) + ")")
-							.attr("width", getPadRadFunct(inputConfig)(circle.radiusPix)*2)
-							.attr("height", getPadRadFunct(inputConfig)(circle.radiusPix)*2)
+							.attr("transform","translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix)) + ")")
+							.attr("width", plotParam.padRadFunct(circle.radiusPix)*2)
+							.attr("height", plotParam.padRadFunct(circle.radiusPix)*2)
 					}
 				}
 				
@@ -465,7 +465,7 @@ function plotter(): Chart {
 				if (inputConfig.dots.radiusMode != "kde") {
 					return;
 				}
-				let padRadFunct = getPadRadFunct(inputConfig);
+
 				//circlesD3Ref
 				let newRads: NewRads = {};
 				let circleID: number;
@@ -475,18 +475,18 @@ function plotter(): Chart {
 					// calc new Radius
 					circle.radiusPix = inputConfig.dots.dotscaling.scaleDensDiamDom(plotParam.kde(circle.origXdom), inputConfig.dots.dSingle) * plotParam.domainToPixel / 2;
 					// change optical circle
-					if (circlesD3Ref[circleID].colorCircle != null) circlesD3Ref[circleID].colorCircle.attr("r", padRadFunct(circle.radiusPix));
+					if (circlesD3Ref[circleID].colorCircle != null) circlesD3Ref[circleID].colorCircle.attr("r", plotParam.padRadFunct(circle.radiusPix));
 					if (inputConfig.images.useImages) {
 						if (hasColor) {
 							// with colored border
-							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
-								.attr("width", padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2 )
-								.attr("height", padRadFunct(circle.radiusPix* inputConfig.images.imageBorderPerc) * 2 )
+							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
+								.attr("width", plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc) * 2 )
+								.attr("height", plotParam.padRadFunct(circle.radiusPix* inputConfig.images.imageBorderPerc) * 2 )
 						} else {
 							// no colored border
-							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - padRadFunct(circle.radiusPix)) + ")")
-								.attr("width", padRadFunct(circle.radiusPix)*2)
-								.attr("height", padRadFunct(circle.radiusPix)*2);
+							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix)) + ")")
+								.attr("width", plotParam.padRadFunct(circle.radiusPix)*2)
+								.attr("height", plotParam.padRadFunct(circle.radiusPix)*2);
 						}
 					}
 					// put on result object
@@ -498,7 +498,6 @@ function plotter(): Chart {
 			/** update optical dot positions */
 			function updateDotPosition(){
 				let description: string;
-				let padRad = getPadRadFunct(inputConfig);
 				let circleID: number;
 				circleData.forEach(circle => {
 					circleID = circle.d3RefID;
@@ -510,9 +509,9 @@ function plotter(): Chart {
 		
 					if (inputConfig.images.useImages) {
 						if (hasColor) {
-							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - padRad(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - padRad(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
+							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix * inputConfig.images.imageBorderPerc)) + ")")
 						} else {
-							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - padRad(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - padRad(circle.radiusPix)) + ")")
+							circlesD3Ref[circleID].image.attr("transform","translate(" + (circle.xPix - plotParam.padRadFunct(circle.radiusPix)) + "," + (yAxisScale(0) - circle.yPix - plotParam.padRadFunct(circle.radiusPix)) + ")")
 						}
 					}
 				})
@@ -584,7 +583,7 @@ function plotter(): Chart {
 								circleTwo = circleData[indxTwo];
 								if (indxOne === indxTwo) continue;
 								// distance from middle of dot 1 to outside of dot 2
-								overlapDistance = Math.max(euclidDist(circleOne, circleTwo) - getPadRadFunct(inputConfig)(circleTwo.radiusPix), 0);
+								overlapDistance = Math.max(euclidDist(circleOne, circleTwo) - plotParam.padRadFunct(circleTwo.radiusPix), 0);
 								// onlz take smallest distance, because if dot doesn|t overlap that, he won't overlap any
 								smallestDistance = (overlapDistance < smallestDistance) ? overlapDistance : smallestDistance;
 								// if circle is completely enveloped no need to look for others
@@ -595,10 +594,10 @@ function plotter(): Chart {
 							if (smallestDistance <= 0) {
 								sumOverlapDiameter += 1;
 							// no overlaping of dots
-							} else if(smallestDistance >= getPadRadFunct(inputConfig)(circleOne.radiusPix)) {
+							} else if(smallestDistance >= plotParam.padRadFunct(circleOne.radiusPix)) {
 								sumOverlapDiameter += 0;
 							} else {
-								sumOverlapDiameter += 1 - (smallestDistance / getPadRadFunct(inputConfig)(circleOne.radiusPix));
+								sumOverlapDiameter += 1 - (smallestDistance / plotParam.padRadFunct(circleOne.radiusPix));
 							}
 						}
 		

@@ -138,7 +138,7 @@ async function newRelaxedPlot(inputData: InputData, inputConfig: InputConfig) : 
     // sort InputData according to the xAttribute (low to high)
     sortX(inputData, inputConfig.xAttribute);
     // doubleSweep and window size
-    plotParam = createPlotDimension(inputConfig, inputData, hasColor
+    plotParam = createPlotParamters(inputConfig, inputData, hasColor
         ,document.getElementById(inputConfig.containerId).style.height
         ,document.getElementById(inputConfig.containerId).style.width);
 

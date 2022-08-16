@@ -183,7 +183,6 @@ function getPadRadFunct(inputConfig: InputConfig) {
     return (radius: number) => radius * (1 - inputConfig.dots.circlePadding);
 }
 
-
 /**returns the list of boundarys for density plotting*/
 function getBoundaryList(inputConfig: InputConfig, inputData: InputData, kde: KDE): BoundaryList {
 

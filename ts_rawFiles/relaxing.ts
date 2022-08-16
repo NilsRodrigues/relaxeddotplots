@@ -246,7 +246,7 @@ function updateCells(inputConfig: InputConfig, circleData: CircleData, plotParam
         densityArray.push(density);
         circle.coverageColor = "#" + (Math.min(Math.round(density*255), 255)*256*256).toString(16).padStart(6, "0");
         // placing error
-        relaxStatus.sumSquaredError += Math.pow(((circle.origXpix - newCirclePosPix.x) / getPadRadFunct(inputConfig)(circle.radiusPix)), 2);
+        relaxStatus.sumSquaredError += Math.pow(((circle.origXpix - newCirclePosPix.x) / plotParam.padRadFunct(circle.radiusPix)), 2);
 
         
     }
